@@ -1,6 +1,7 @@
 from aiogram import Bot, Dispatcher
 from aiogram.filters import Command, CommandStart
 from aiogram.types import Message
+from aiogram import F
 
 import random
 
@@ -34,8 +35,21 @@ async def help_command(message: Message):
 async def start_commands(message: Message):
     await message.answer(f'Всего игр сыгранно: {user["total_game"]} \n'
                          f'Выйгранных игр: {user["win"]}')
-                         
-    
+
+@dp.message(Command(commands=["cancel"]))
+async def cancel_command(message: Message):
+    if user["in_game"] == True:
+        user["in_game"] = False
+        await message.answer("Вы вышли из игры")
+    else:
+        await message.answer("Мы с вами не играем")
+
+
+@dp.message(F.text.lower().in_(["да", "давай", "го", "согласен", "начнем"]))
+async def start_game(message: Message):
+    if user["in_game"] == False:
+        user["in_game"] = True
+
 
 if __name__ == "__main__":
     dp.run_polling(bot)
