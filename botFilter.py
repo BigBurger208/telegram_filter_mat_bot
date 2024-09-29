@@ -77,6 +77,9 @@ async def filter_message(message: Message):
 
 
 banworld.close()
+admin_name.close()
+ban_user_name.close()
+
 
 dp.run_polling(bot)
 
