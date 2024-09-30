@@ -2,6 +2,8 @@ from aiogram import Bot, Dispatcher
 from aiogram.filters import Command
 from aiogram.types import Message
 from aiogram import F
+from hugchat import hugchat
+from hugchat.login import Login
 
 BOT_TOKEN = "7921078426:AAGE9AzemlTU6XeiopTCot18tudIk27IyAg"
 bot = Bot(token=BOT_TOKEN)
@@ -20,6 +22,16 @@ MAX_MATS = 5
 
 users = {}
 
+def AiDialog(user_input, email, passwork):
+    sing = Login(email, passwork)
+
+    cooke = sing.login()
+
+    chat_bot = hugchat.ChatBot(cookies=cooke.get_dict())
+
+    return chat_bot.chat(user_input)
+
+
 #Просто выдаем сколько предупреждений у пользователя
 @dp.message(Command(commands=["mats"]))
 async def mats_command(message: Message):
@@ -34,6 +46,8 @@ async def mats_command(message: Message):
 
 @dp.message(F.text)
 async def filter_message(message: Message):
+
+    is_mat_message = False
 
     #Если пользователя нет в списке то мы его добавляем по его id
     if message.from_user.id not in users:
@@ -76,20 +90,23 @@ async def filter_message(message: Message):
                 #Костыль
                 full_message_text = str()
 
+                is_mat_message = True
+
                 # Если предупреждений много баним
                 if users[message.from_user.id]["mats"] >= MAX_MATS:
                     users[message.from_user.id]["is_ban"] = True
                     await bot.ban_chat_member(message.chat.id, message.from_user.id)
 
                 #Пишем что выдали предупреждение
-
                 await message.answer(f"Я выдаю предуприждение пользователю {message.from_user.first_name}\nЧисло предупреждений: {users[message.from_user.id]['mats']}")
                 await message.delete()
 
                 break
 
-
-
+    if not is_mat_message:
+        r = "" + AiDialog(str(message.text), "bratiya234@gmail.com", "Wede12345678900")
+        print(1)
+        await message.reply(r)
 
 banworld.close()
 admin_name.close()
