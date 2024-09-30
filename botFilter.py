@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-print(1)
-=======
 from aiogram import Bot, Dispatcher
 from aiogram.filters import Command
 from aiogram.types import Message
@@ -89,4 +86,4 @@ dp.run_polling(bot)
 
 
 
->>>>>>> 8833888 (StatProject!)
+
