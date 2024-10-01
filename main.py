@@ -31,6 +31,17 @@ def AiDialog(user_input, email, passwork):
 
     return chat_bot.chat(user_input)
 
+@dp.message(Command(commands=["ai"]))
+async def Ai_progress(message: Message):
+
+    message.text.replace("/AI", "")
+    message.text.strip()
+
+    r = "" + AiDialog(str(message.text), "bratiya234@gmail.com", "Wede12345678900")
+    print(1)
+    await message.reply(r)
+
+
 
 #Просто выдаем сколько предупреждений у пользователя
 @dp.message(Command(commands=["mats"]))
@@ -102,11 +113,6 @@ async def filter_message(message: Message):
                 await message.delete()
 
                 break
-
-    if not is_mat_message:
-        r = "" + AiDialog(str(message.text), "bratiya234@gmail.com", "Wede12345678900")
-        print(1)
-        await message.reply(r)
 
 banworld.close()
 admin_name.close()
