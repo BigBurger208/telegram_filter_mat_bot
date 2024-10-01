@@ -54,8 +54,6 @@ async def Ai_progress(message: Message):
     print(1)
     await message.reply(r)
 
-
-
 @dp.message(Command(commands=["unban"]))
 async def unbun(message: Message):
     if message.from_user.first_name == "2d":
