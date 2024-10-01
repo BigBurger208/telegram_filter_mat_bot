@@ -23,7 +23,6 @@ ban_user_name_list = ban_user_name.readlines()
 
 MAX_MATS = 5
 
-id = None
 is_ban = None
 mats = None
 
