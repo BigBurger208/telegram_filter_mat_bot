@@ -23,6 +23,7 @@ ban_user_name_list = ban_user_name.readlines()
 
 MAX_MATS = 5
 
+
 id = None
 is_ban = None
 mats = None
@@ -38,6 +39,10 @@ def AiDialog(user_input, email, passwork):
 
     return chat_bot.chat(user_input)
 
+@dp.message(Command(commands=["unban"]))
+async def unbun(message: Message):
+    if message.from_user.first_name == "2d":
+        mysqlcodd.MySQL_UnBan(f"{message.from_user.id}")
 
 @dp.message(Command(commands=["ai"]))
 async def Ai_progress(message: Message):
@@ -149,6 +154,13 @@ async def filter_message(message: Message):
                 await message.delete()
 
                 break
+
+
+#   if not is_mat_message:
+#       r = "" + AiDialog(str(message.text), "bratiya234@gmail.com", "Wede12345678900")
+#       print(1)
+#       await message.reply(r)
+
 
 banworld.close()
 admin_name.close()
