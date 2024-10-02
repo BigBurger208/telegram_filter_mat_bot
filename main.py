@@ -23,8 +23,11 @@ ban_user_name_list = ban_user_name.readlines()
 
 MAX_MATS = 5
 
+<<<<<<< HEAD
 
 id = None
+=======
+>>>>>>> a3aa461 (MySQLSystem!)
 is_ban = None
 mats = None
 
