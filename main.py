@@ -29,28 +29,12 @@ mats = None
 
 users = {}
 
-def AiDialog(user_input, email, passwork):
-    sing = Login(email, passwork)
-
-    cooke = sing.login()
-
-    chat_bot = hugchat.ChatBot(cookies=cooke.get_dict())
-
-    return chat_bot.chat(user_input)
 
 @dp.message(Command(commands=["unban"]))
 async def unbun(message: Message):
     if message.from_user.first_name == "2d":
         mysqlcodd.MySQL_UnBan(f"{message.from_user.id}")
 
-@dp.message(Command(commands=["ai"]))
-async def Ai_progress(message: Message):
-
-    message.text.replace("/AI", "")
-    message.text.strip()
-
-    r = "" + AiDialog(str(message.text), "bratiya234@gmail.com", "Wede12345678900")
-    await message.reply(r)
 
 @dp.message(Command(commands=["unban"]))
 async def unbun(message: Message):
@@ -78,8 +62,6 @@ async def mats_command(message: Message):
 
 @dp.message(F.text)
 async def filter_message(message: Message):
-
-    is_mat_message = False
 
     mats, is_ban = mysqlcodd.MySQL_REG(f"{message.from_user.id}")
 
@@ -151,11 +133,6 @@ async def filter_message(message: Message):
 
                 break
 
-
-#   if not is_mat_message:
-#       r = "" + AiDialog(str(message.text), "bratiya234@gmail.com", "Wede12345678900")
-#       print(1)
-#       await message.reply(r)
 
 
 banworld.close()
