@@ -12,7 +12,7 @@ def MySQL_REG(id: str):
             database="online_move"
         ) as connection:
             command_table = f"SELECT id FROM mats_user WHERE id = {id}"
-            #create_table = "CREATE TABLE mats_user(id VARCHAR(100), mat INT, ban BOOL)"
+            #create_table = "CREATE TABLE mats_user_AI(id VARCHAR(100), mat INT, ban BOOL)"
             #delete = "DROP TABLE mats_user"
             with connection.cursor() as cursor:
 
@@ -168,3 +168,4 @@ def MySQL_UnBan(id: str):
 
     except Error as e:
         print(e)
+
