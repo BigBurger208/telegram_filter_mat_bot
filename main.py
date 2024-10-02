@@ -23,11 +23,7 @@ ban_user_name_list = ban_user_name.readlines()
 
 MAX_MATS = 5
 
-<<<<<<< HEAD
-
 id = None
-=======
->>>>>>> a3aa461 (MySQLSystem!)
 is_ban = None
 mats = None
 
@@ -47,7 +43,7 @@ async def unbun(message: Message):
     if message.from_user.first_name == "2d":
         mysqlcodd.MySQL_UnBan(f"{message.from_user.id}")
 
-@dp.message(Command(commands=["ai_text"]))
+@dp.message(Command(commands=["ai"]))
 async def Ai_progress(message: Message):
 
     message.text.replace("/AI", "")
