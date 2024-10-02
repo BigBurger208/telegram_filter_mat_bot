@@ -51,7 +51,6 @@ async def Ai_progress(message: Message):
     message.text.strip()
 
     r = "" + AiDialog(str(message.text), "bratiya234@gmail.com", "Wede12345678900")
-    print(1)
     await message.reply(r)
 
 @dp.message(Command(commands=["unban"]))
