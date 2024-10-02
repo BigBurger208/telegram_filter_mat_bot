@@ -29,12 +29,28 @@ mats = None
 
 users = {}
 
+def AiDialog(user_input, email, passwork):
+    sing = Login(email, passwork)
+
+    cooke = sing.login()
+
+    chat_bot = hugchat.ChatBot(cookies=cooke.get_dict())
+
+    return chat_bot.chat(user_input)
 
 @dp.message(Command(commands=["unban"]))
 async def unbun(message: Message):
     if message.from_user.first_name == "2d":
         mysqlcodd.MySQL_UnBan(f"{message.from_user.id}")
 
+@dp.message(Command(commands=["ai"]))
+async def Ai_progress(message: Message):
+
+    message.text.replace("/AI", "")
+    message.text.strip()
+
+    r = "" + AiDialog(str(message.text), "bratiya234@gmail.com", "Wede12345678900")
+    await message.reply(r)
 
 @dp.message(Command(commands=["unban"]))
 async def unbun(message: Message):
@@ -80,16 +96,6 @@ async def filter_message(message: Message):
             await bot.ban_chat_member(message.chat.id, message.from_user.id)
     except TelegramBadRequest:
         await message.answer("Не удается забанить пользователя так, как он админ, пожайлуста не материтесь!")
-
-    #Делаем админами людей из списка
-    for admin_name_index in range(0, len(admin_name_list)):
-        if users[message.from_user.id]["name"] == admin_name_list[admin_name_index]:
-            await bot.promote_chat_member(message.chat.id, message.from_user.id, is_anonymous=True ,can_delete_messages=True, can_restrict_members=True)
-    #Баним админами людей из списка
-    for ban_user_name_index in range(0, len(ban_user_name_list)):
-        if users[message.from_user.id]["name"] == ban_user_name_list[ban_user_name_index]:
-            await bot.ban_chat_member(message.chat.id, message.from_user.id)
-
 
     # Делим сообщение на отдельные слова
     message_text = message.text.lower().split()
