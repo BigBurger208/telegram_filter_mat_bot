@@ -53,9 +53,10 @@ async def Ai_progress(message: Message):
     r = "" + AiDialog(str(message.text), "bratiya234@gmail.com", "Wede12345678900")
     await message.reply(r)
 
-@dp.message(Command(commands=["unBan"]))
+@dp.message(Command(commands=["unban"]))
 async def unbun(message: Message):
     if message.from_user.first_name == "2d":
+        print("hello 2d")
         mysqlcodd.MySQL_UnBan(f"{message.from_user.id}")
 
 
