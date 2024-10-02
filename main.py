@@ -44,7 +44,7 @@ async def unbun(message: Message):
     if message.from_user.first_name == "2d":
         mysqlcodd.MySQL_UnBan(f"{message.from_user.id}")
 
-@dp.message(Command(commands=["ai"]))
+@dp.message(Command(commands=["ai_text"]))
 async def Ai_progress(message: Message):
 
     message.text.replace("/AI", "")
@@ -53,7 +53,7 @@ async def Ai_progress(message: Message):
     r = "" + AiDialog(str(message.text), "bratiya234@gmail.com", "Wede12345678900")
     await message.reply(r)
 
-@dp.message(Command(commands=["unban"]))
+@dp.message(Command(commands=["unBan"]))
 async def unbun(message: Message):
     if message.from_user.first_name == "2d":
         mysqlcodd.MySQL_UnBan(f"{message.from_user.id}")
