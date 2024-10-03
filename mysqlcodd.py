@@ -168,3 +168,5 @@ def MySQL_UnBan(id: str):
 
     except Error as e:
         print(e)
+
+a, b = MySQL_REG("000")
