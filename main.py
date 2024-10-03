@@ -4,9 +4,6 @@ from aiogram.types import Message
 from aiogram import F
 from hugchat import hugchat
 from hugchat.login import Login
-from aiogram.exceptions import TelegramBadRequest
-import mysqlcodd
-
 
 BOT_TOKEN = "7921078426:AAGE9AzemlTU6XeiopTCot18tudIk27IyAg"
 bot = Bot(token=BOT_TOKEN)
@@ -23,9 +20,6 @@ ban_user_name_list = ban_user_name.readlines()
 
 MAX_MATS = 5
 
-is_ban = None
-mats = None
-
 users = {}
 
 def AiDialog(user_input, email, passwork):
@@ -37,26 +31,16 @@ def AiDialog(user_input, email, passwork):
 
     return chat_bot.chat(user_input)
 
-@dp.message(Command(commands=["unban"]))
-async def unbun(message: Message):
-    if message.from_user.first_name == "2d":
-        mysqlcodd.MySQL_UnBan(f"{message.from_user.id}")
 
 #Просто выдаем сколько предупреждений у пользователя
 @dp.message(Command(commands=["mats"]))
 async def mats_command(message: Message):
-
-    mats, is_ban = mysqlcodd.MySQL_REG(f"{message.from_user.id}")
-
-
     if message.from_user.id not in users:
         users[message.from_user.id] = {
             "name": message.from_user.first_name,
-            "mats": mats,
-            "is_ban": is_ban
+            "mats": 0,
+            "is_ban": False
         }
-
-
     await message.answer(f"Число пердупреждений: {users[message.from_user.id]['mats']}")
 
 
@@ -65,23 +49,16 @@ async def filter_message(message: Message):
 
     is_mat_message = False
 
-    mats, is_ban = mysqlcodd.MySQL_REG(f"{message.from_user.id}")
-
-
     #Если пользователя нет в списке то мы его добавляем по его id
-
-    users[message.from_user.id] = {
+    if message.from_user.id not in users:
+        users[message.from_user.id] = {
             "name": str(message.from_user.first_name),
-            "mats": mats,
-            "is_ban": is_ban
+            "mats": 0,
+            "is_ban": False
         }
-
     #Если пользователь по какой-то причине не забанен то баним
-    try:
-        if users[message.from_user.id]["is_ban"] == 1:
-            await bot.ban_chat_member(message.chat.id, message.from_user.id)
-    except TelegramBadRequest:
-        await message.answer("Не удается забанить пользователя так, как он админ, пожайлуста не материтесь!")
+    if users[message.from_user.id]["is_ban"]:
+        await bot.ban_chat_member(message.chat.id, message.from_user.id)
 
     #Делаем админами людей из списка
     for admin_name_index in range(0, len(admin_name_list)):
@@ -108,9 +85,7 @@ async def filter_message(message: Message):
             if str(message_text[a]) + "\n" == banworld_list[i] or str(full_message_text) + "\n" == banworld_list[i]:
 
                 #Если подошёл даем предупреждение
-
-                mats, is_ban = mysqlcodd.MySQL_Mat(f"{message.from_user.id}")
-                users[message.from_user.id]["mats"] = mats
+                users[message.from_user.id]["mats"] += 1
 
                 #Костыль
                 full_message_text = str()
@@ -118,16 +93,9 @@ async def filter_message(message: Message):
                 is_mat_message = True
 
                 # Если предупреждений много баним
-                try:
-                    if users[message.from_user.id]["mats"] >= MAX_MATS:
-                        mats, is_ban = mysqlcodd.MySQL_Ban(f"{message.from_user.id}")
-
-                        users[message.from_user.id]["mats"] = mats
-                        users[message.from_user.id]["is_ban"] = is_ban
-                        await bot.ban_chat_member(message.chat.id, message.from_user.id)
-                        await message.answer(f"Пользователь: {message.from_user.first_name} забанен тк много матерился")
-                except TelegramBadRequest:
-                    await message.answer("Не удается забанить пользователя так, как он админ, пожайлуста не материтесь!")
+                if users[message.from_user.id]["mats"] >= MAX_MATS:
+                    users[message.from_user.id]["is_ban"] = True
+                    await bot.ban_chat_member(message.chat.id, message.from_user.id)
 
                 #Пишем что выдали предупреждение
                 await message.answer(f"Я выдаю предуприждение пользователю {message.from_user.first_name}\nЧисло предупреждений: {users[message.from_user.id]['mats']}")
@@ -135,10 +103,10 @@ async def filter_message(message: Message):
 
                 break
 
-#   if not is_mat_message:
-#       r = "" + AiDialog(str(message.text), "bratiya234@gmail.com", "Wede12345678900")
-#       print(1)
-#       await message.reply(r)
+    if not is_mat_message:
+        r = "" + AiDialog(str(message.text), "bratiya234@gmail.com", "Wede12345678900")
+        print(1)
+        await message.reply(r)
 
 banworld.close()
 admin_name.close()
