@@ -2,8 +2,6 @@ from aiogram import Bot, Dispatcher
 from aiogram.filters import Command
 from aiogram.types import Message
 from aiogram import F
-from hugchat import hugchat
-from hugchat.login import Login
 from aiogram.exceptions import TelegramBadRequest
 import mysqlcodd
 
