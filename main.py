@@ -6,7 +6,7 @@ from aiogram.exceptions import TelegramBadRequest
 import mysqlcodd
 
 
-BOT_TOKEN = "YOU TOKEN"
+BOT_TOKEN = "YOU token"
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
