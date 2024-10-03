@@ -2,11 +2,13 @@ from aiogram import Bot, Dispatcher
 from aiogram.filters import Command
 from aiogram.types import Message
 from aiogram import F
+from hugchat import hugchat
+from hugchat.login import Login
 from aiogram.exceptions import TelegramBadRequest
 import mysqlcodd
 
 
-BOT_TOKEN = "YOU token"
+BOT_TOKEN = "7921078426:AAGE9AzemlTU6XeiopTCot18tudIk27IyAg"
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
@@ -25,6 +27,15 @@ is_ban = None
 mats = None
 
 users = {}
+
+def AiDialog(user_input, email, passwork):
+    sing = Login(email, passwork)
+
+    cooke = sing.login()
+
+    chat_bot = hugchat.ChatBot(cookies=cooke.get_dict())
+
+    return chat_bot.chat(user_input)
 
 @dp.message(Command(commands=["unban"]))
 async def unbun(message: Message):
@@ -123,6 +134,11 @@ async def filter_message(message: Message):
                 await message.delete()
 
                 break
+
+#   if not is_mat_message:
+#       r = "" + AiDialog(str(message.text), "bratiya234@gmail.com", "Wede12345678900")
+#       print(1)
+#       await message.reply(r)
 
 banworld.close()
 admin_name.close()
