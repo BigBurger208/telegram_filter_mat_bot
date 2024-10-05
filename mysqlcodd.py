@@ -7,9 +7,9 @@ def MySQL_REG(id: str):
     try:
         with connect(
             host="localhost",
-            user="burger",
-            password="wede12345678900",
-            database="online_move"
+            user="user_name",
+            password="password",
+            database="database_name"
         ) as connection:
             command_table = f"SELECT id FROM mats_user WHERE id = {id}"
             #create_table = "CREATE TABLE mats_user(id VARCHAR(100), mat INT, ban BOOL)"
